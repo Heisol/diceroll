@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useState} from 'react'
+import { useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDice} from '@fortawesome/free-solid-svg-icons'
 import { v4 as uuidv4 } from 'uuid';
@@ -26,10 +26,7 @@ const firebaseConfig = {
   messagingSenderId: process.env.messagingSenderId,
   appId: process.env.appId,
   measurementId: process.env.measurementId
-};
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = app && getFirestore(app)
+}
 
 const Home: NextPage = () => {
 
@@ -51,6 +48,17 @@ const ReactPage = ()=>{
     index: number,
     value: number
   }
+
+  const [app, setApp] = useState<any>()
+  const [db, setDb] = useState<any>()
+
+  useEffect(()=>{
+    // Initialize Firebase
+    // app = initializeApp(firebaseConfig);
+    // db = app && getFirestore(app)
+    setApp(initializeApp(firebaseConfig))
+    setDb(getFirestore())
+  }, [])
 
   const [diceNum, setDiceNum]= useState<any>(1)
   const [dice, setDice] = useState<Array<dice>>()
