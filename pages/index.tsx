@@ -9,24 +9,8 @@ import SettingsBar from './pages-components/index/SettingsBar';
 import DiceComponent from './pages-components/index/DiceComponent';
 //local imports
 
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, deleteDoc, getDoc, doc,} from "firebase/firestore"
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: process.env.apiKey,
-  authDomain: process.env.authDomain,
-  projectId: process.env.projectId,
-  storageBucket: process.env.storageBucket,
-  messagingSenderId: process.env.messagingSenderId,
-  appId: process.env.appId,
-  measurementId: process.env.measurementId
-}
+import {app, db} from './localmodules/firebase';
+//firebase import from local config
 
 const Home: NextPage = () => {
 
@@ -48,17 +32,6 @@ const ReactPage = ()=>{
     index: number,
     value: number
   }
-
-  const [app, setApp] = useState<any>()
-  const [db, setDb] = useState<any>()
-
-  useEffect(()=>{
-    // Initialize Firebase
-    // app = initializeApp(firebaseConfig);
-    // db = app && getFirestore(app)
-    setApp(initializeApp(firebaseConfig))
-    setDb(getFirestore())
-  }, [])
 
   const [diceNum, setDiceNum]= useState<any>(1)
   const [dice, setDice] = useState<Array<dice>>()
