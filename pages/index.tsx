@@ -1,12 +1,35 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import { useState } from 'react'
+import { useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDice, faStop} from '@fortawesome/free-solid-svg-icons'
+import { faDice} from '@fortawesome/free-solid-svg-icons'
 import { v4 as uuidv4 } from 'uuid';
-import { type } from 'os'
+// package imports
+
+import SettingsBar from './pages-components/index/SettingsBar';
+import DiceComponent from './pages-components/index/DiceComponent';
+//local imports
+
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, deleteDoc, getDoc, doc,} from "firebase/firestore"
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+  appId: process.env.appId,
+  measurementId: process.env.measurementId
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = app && getFirestore(app)
 
 const Home: NextPage = () => {
 
@@ -33,7 +56,7 @@ const ReactPage = ()=>{
   const [dice, setDice] = useState<Array<dice>>()
 
   const rollDice = ():number =>Math.floor(Math.random()*6)+1
-
+  // rolling func
   const rollDices = (dices:number) =>{
     if (dices<=0) {
       alert('There should be at least 1 dice to roll')
@@ -44,6 +67,7 @@ const ReactPage = ()=>{
     }
     setDice(diceArr)
   }
+ // actual dice rolling
 
   let tempArr = [1,2,3,4,5,6]
 
@@ -57,22 +81,19 @@ const ReactPage = ()=>{
           onChange={e=>{
             if (Number(e.target.value) <= 0) return
             setDiceNum(e.target.value)
-            if (dice) rollDices(diceNum)
           }}
           placeholder="Number of dices"
         />
         <span onClick={()=>rollDices(diceNum)} className="input-group-text btn btn-primary"><FontAwesomeIcon icon={faDice} /></span>
-        {/* <span className="input-group-text btn btn-primary"><FontAwesomeIcon icon={faStop} /></span> */}
       </div>
+      <SettingsBar dice={dice || undefined}/>
       {
         dice &&
         <div className='d-flex flex-row card p-3'>
           <div className='d-flex flex-column bd-highlight mb-3' style={{width: '15%', flexWrap: 'wrap'}}>
-            {
-              tempArr.map(e=><div key={uuidv4()}><p className='font-monospace'>{e}: {dice.filter(e1=>e1.value == e ? true: false).length}</p></div>)
-            }
+            
           </div>
-          <div className='d-flex bd-highlight mb-3 card' style={{width: '85%', flexWrap: 'wrap'}}>
+          <div className='d-flex flex-row bd-highlight p-3 card' style={{width: '80%', flexWrap: 'wrap'}}>
             {
               dice &&dice.map(e=>{
                 return (
@@ -87,19 +108,3 @@ const ReactPage = ()=>{
   )
 }
 
-const DiceComponent = ({textToRender}:{textToRender:String | number}) =>{
-  return(
-    <div style={{
-      height: 100,
-      width: 100,
-      minHeight: 100,
-      minWidth: 100,
-      alignItems: 'center',
-      justifyContent: 'center',
-      display: 'flex'
-      }} 
-      className='m-3 p-3 border border-primary' key={uuidv4()}>
-      <div>{textToRender}</div>
-    </div>
-  )
-}
