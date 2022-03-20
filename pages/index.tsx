@@ -9,7 +9,7 @@ import SettingsBar from './pages-components/index/SettingsBar';
 import DiceComponent from './pages-components/index/DiceComponent';
 //local imports
 
-import {app, db} from './localmodules/firebase';
+import {app, db} from '../localmodules/firebase';
 //firebase import from local config
 
 const Home: NextPage = () => {
