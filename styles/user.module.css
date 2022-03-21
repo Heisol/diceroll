@@ -1,0 +1,32 @@
+.userIconContainer {
+    width: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    height: 50px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.userIcon {
+    border-radius: 50%;
+    max-height: 100%;
+    transition: 0.5s;
+}
+
+@keyframes opacityChange {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.changeOpacity:hover {
+    opacity: 1;
+    animation-duration: 0.5s;
+    animation-name: opacityChange;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+

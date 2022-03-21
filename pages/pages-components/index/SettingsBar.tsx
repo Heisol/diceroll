@@ -3,15 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch} from '@fortawesome/free-solid-svg-icons'
 import {v4 as uuidv4} from 'uuid'
 
-interface dice {
-    index: number,
-    value: number
-  }
-
-const SettingsBar = ({dice}:{dice:any}) => {
-
+const SettingsBar = ({dice, rangeRes, setRangeRes, exactRes, setExactRes}:any) => {
   const [outputType, setOutputType] = useState<Array<boolean>>([true, false])
-  const [exactRes, setExactRes] = useState<number|undefined>()
   const [exactSearch, setExactSearch] = useState<string>()
 
   const searchForExact = (dice:any, searchVal:number):number|undefined =>{
@@ -19,10 +12,9 @@ const SettingsBar = ({dice}:{dice:any}) => {
     let exactArr = dice.filter((e:any)=>e.value == searchVal ? true: false)
     setExactRes(exactArr.length)
   }
-
   const [rangeSearch, setRangeSearch] = useState<string>('')
   const [validRange, setValidRange] = useState<boolean>(false)
-  const [rangeRes, setRangeRes] = useState<{range: Array<number>, values: Array<number>, log:string, total:number}| undefined>()
+  
   const rangeSearchOnChange = (inputString:string) =>{
     let tempString = inputString.trim()
     let tempSplit = tempString.includes('-') ? tempString.split('-') : null
@@ -32,7 +24,6 @@ const SettingsBar = ({dice}:{dice:any}) => {
       let newString = leftVal+'-'+rightVal
       setRangeSearch(newString)
       setValidRange((!leftVal || !rightVal)? false : true)
-      console.log((!leftVal || !rightVal)? false : true)
       return
     }
     setValidRange(false)
@@ -107,7 +98,7 @@ const SettingsBar = ({dice}:{dice:any}) => {
                 </h2>
                 <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                   <div className="accordion-body">
-                    {rangeRes && rangeRes.range.map(e=>{
+                    {rangeRes && rangeRes.range.map((e:any)=>{
                       let index = rangeRes.range.indexOf(e)
                       if (rangeRes.values[index] !== 0) {return (
                         <div key={uuidv4()}>{e} &#58; {rangeRes.values[index]}</div>
