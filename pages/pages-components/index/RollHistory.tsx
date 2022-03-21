@@ -22,6 +22,7 @@ const RollHistory = ({fetching, setFetching, cUser, dice, setDice,diceNum, setDi
         diceNum: diceNum,
         }).then(doc=>{
             const dialogElement = document.getElementById('dialog')
+            // @ts-ignore
             dialogElement && dialogElement.showModal()
             setFetching(false)
         }).catch(e=>{alert(`Error ${e.code}:${e.message}`)})
@@ -43,6 +44,7 @@ const RollHistory = ({fetching, setFetching, cUser, dice, setDice,diceNum, setDi
           })
           tempArr4 && setRolls(tempArr4)
           const historyTab = document.getElementById('historyTab')
+          // @ts-ignore
           historyTab && setTimeout(()=>historyTab.showModal(), 1000)
           
         }).catch(e=>alert(`Error ${e.code}: ${e.message}`))
@@ -55,6 +57,7 @@ const RollHistory = ({fetching, setFetching, cUser, dice, setDice,diceNum, setDi
             Saved succesfully  
             <span className={`p-3`} style={{cursor: 'pointer'}} onClick={()=>{
                  const dialogElement = document.getElementById('dialog')
+                 // @ts-ignore
                  dialogElement && dialogElement.close()
             }} > <FontAwesomeIcon icon={faClose}/> </span>
           </dialog>
@@ -70,6 +73,7 @@ const History = ({rolls, setDice, setDiceNum}:any) =>{
       <dialog className={`alert alert-primary`} id='historyTab' >
         <span className="d-flex flex-row-reverse" style={{cursor: 'pointer'}} onClick={()=>{
           const historyTab = document.getElementById('historyTab')
+          // @ts-ignore
           historyTab && setTimeout(()=>historyTab.close(), 1000)
         }} ><FontAwesomeIcon icon={faClose}/></span>
         <table className="table">
