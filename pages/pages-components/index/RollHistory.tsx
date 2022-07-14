@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose} from '@fortawesome/free-solid-svg-icons'
 import { useState } from "react"
 import { v4 as uuidv4} from 'uuid'
+import { Drawer, Dialog } from '@mantine/core'
 
 import styles from '../../../styles/popup.module.css'
 
@@ -21,13 +22,13 @@ const RollHistory = ({fetching, setFetching, cUser, dice, setDice,diceNum, setDi
         dice: dice,
         diceNum: diceNum,
         }).then(doc=>{
-            const dialogElement = document.getElementById('dialog')
-            // @ts-ignore
-            dialogElement && dialogElement.showModal()
+            setDialog(true)
+            setTimeout(()=>setDialog(false), 5000)
             setFetching(false)
         }).catch(e=>{alert(`Error ${e.code}:${e.message}`)})
     }
 
+    const [historyDialog, setHistoryDialog] = useState<boolean>(false)
     const onGetRoll = () =>{
         setFetching(true)
         getDocs(collection(db, cUser.uid))
@@ -43,39 +44,26 @@ const RollHistory = ({fetching, setFetching, cUser, dice, setDice,diceNum, setDi
             return e
           })
           tempArr4 && setRolls(tempArr4)
-          const historyTab = document.getElementById('historyTab')
-          // @ts-ignore
-          historyTab && setTimeout(()=>historyTab.showModal(), 1000)
-          
+          setHistoryDialog(true)          
         }).catch(e=>alert(`Error ${e.code}: ${e.message}`))
         .finally(()=>setFetching(false))
     }
 
   return (
     <div className="my-3 btn-group" style={{width: '25%'}}>
-          <dialog className={`alert alert-primary`} id='dialog' open={dialog}>
+          <Dialog  opened={dialog} withCloseButton onClose={()=>setDialog(false)} >
             Saved succesfully  
-            <span className={`p-3`} style={{cursor: 'pointer'}} onClick={()=>{
-                 const dialogElement = document.getElementById('dialog')
-                 // @ts-ignore
-                 dialogElement && dialogElement.close()
-            }} > <FontAwesomeIcon icon={faClose}/> </span>
-          </dialog>
+          </Dialog>
           <button onClick={onSaveRoll} className='btn btn-primary' disabled={fetching || !cUser || !dice || !diceNum}>Save roll</button>
           <button onClick={onGetRoll} title="Displays the saved dice rolls and the user can load a certain roll" className='btn btn-dark' disabled={fetching || !cUser}>View saved rolls</button>
-          {rolls && <History rolls={rolls} setDice={setDice} setDiceNum={setDiceNum} />}
+          {rolls && <History rolls={rolls} setDice={setDice} setDiceNum={setDiceNum} historyDialog={historyDialog} setHistoryDialog={setHistoryDialog} />}
     </div>
   )
 }
 
-const History = ({rolls, setDice, setDiceNum}:any) =>{
+const History = ({rolls, setDice, setDiceNum, historyDialog, setHistoryDialog}:any) =>{
   return (
-      <dialog className={`alert alert-primary`} id='historyTab' >
-        <span className="d-flex flex-row-reverse" style={{cursor: 'pointer'}} onClick={()=>{
-          const historyTab = document.getElementById('historyTab')
-          // @ts-ignore
-          historyTab && setTimeout(()=>historyTab.close(), 1000)
-        }} ><FontAwesomeIcon icon={faClose}/></span>
+      <Drawer opened={historyDialog} onClose={()=>setHistoryDialog(false)}  size='xl' padding={'xl'} position='right' >
         <table className="table">
           <thead>
             <tr>
@@ -102,7 +90,7 @@ const History = ({rolls, setDice, setDiceNum}:any) =>{
             })}
           </tbody>
         </table>
-      </dialog>
+      </Drawer>
   )
 }
 
