@@ -1,5 +1,5 @@
 //@ts-ignore
-import paperstack from 'paperstack'
+const paperstack = require('paperstack')
 
 const client = new paperstack(
     'alidejando@gmail.com',
@@ -8,5 +8,6 @@ const client = new paperstack(
     '77be5cfe4db29302d2c89e81e4ca98b8c75942c9f0f31375c7aa9ae4c492588d'
 )
 const init = client.init()
+
 
 export const paperstackClient = client
