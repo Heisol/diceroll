@@ -114,11 +114,12 @@ const ReactPage = ()=>{
       return
     }
     let newOTP = otp.toUpperCase()
+    newOTP = newOTP.trim()
     const res = await client.verifyOTP(user.uid, newOTP)
     if (res == false) alert('OTP mismatch or expired')
     if (res) setOTPModal(false)
   }
-
+  
   const reSendOTP = () =>{
     try {
       fetch(`https://paperstack-drab.vercel.app/api/package/emailotp/${cUser.email}/${cUser.uid}`)
@@ -151,6 +152,15 @@ const ReactPage = ()=>{
       closeOnClickOutside={false}
       >
         <Group position='center' direction='column' >
+          {
+            qr &&
+            <Image
+              src={qr}
+              alt="QR-OTP"
+              height={200}
+              width={200}
+            />
+          }
         <Text>QR-OTP has been sent to <Text color='blue' >{cUser.email}</Text></Text>
         <TextInput
           placeholder="OTP"

@@ -2304,10 +2304,10 @@ pako@~1.0.2:
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
   integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
 
-paperstack@^1.0.18:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/paperstack/-/paperstack-1.0.18.tgz#05cd4a2591ea26c9441fa2e8c593273dfb961839"
-  integrity sha512-9B3OEjkORkA1tmnGjxk5cSxvhIarxD6hQKyHLypTTbxoawZnFAB+3+5wZO6Wj980v7t1Hm9PmiTSxAkVMRYRxQ==
+paperstack@^1.0.23:
+  version "1.0.23"
+  resolved "https://registry.yarnpkg.com/paperstack/-/paperstack-1.0.23.tgz#5eda2825f41cc49d8693eae6228c36f6c5699430"
+  integrity sha512-1eS1BScY3TZL5vSXdtZXm5FXlUO/oSqK91xQPTjwq2r5JNVpC3qGBkxogsc1Org7IO057luoadTsxiiqAzLvAw==
   dependencies:
     axios "^0.24.0"
 
