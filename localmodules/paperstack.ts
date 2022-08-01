@@ -1,10 +1,11 @@
-import paperstack from 'paperstack'
+//@ts-ignore
+import paperstack from 'paperstack/index.js'
 
 const client = new paperstack(
     'alidejando@gmail.com',
     'secret',
-    'a7b7bcf85d9448288bfa1990c9102f1bd44f6b98c9132327efdd76028ccb1a8f',
-    '77be5cfe4db29302d2c89e81e4ca98b8c75942c9f0f31375c7aa9ae4c492588d'
+    'e5e05d7c9049a60e86de29b2c23268402351e64b2b98fa472aeaed4fb149771f',
+    'afdf63967335fb40e4b43881949daceacf764b55f5e01ba54abf8ac27aa11052'
 )
 const init = client.init()
 
