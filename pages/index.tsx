@@ -4,31 +4,21 @@ import { useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDice} from '@fortawesome/free-solid-svg-icons'
 import { v4 as uuidv4 } from 'uuid';
-import { Modal, Button, Group, Text, Image, TextInput } from '@mantine/core'
-import { DatePicker } from '@mantine/dates'
 // package imports
 
 import SettingsBar from './pages-components/index/SettingsBar';
 import DiceComponent from './pages-components/index/DiceComponent';
 import UserBar from './pages-components/index/UserBar';
 import RollHistory from './pages-components/index/RollHistory'
-import { paperstackClient as client } from '../localmodules/paperstack'
 //local imports
 
 import {app, db} from '../localmodules/firebase';
-import { GoogleAuthProvider, getAuth, signInWithPopup, onAuthStateChanged, signOut} from "firebase/auth";
-import { getDocs, collection, getDoc, doc } from 'firebase/firestore'
+import { GoogleAuthProvider, getAuth, signInWithPopup, signOut} from "firebase/auth";
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
 //firebase
 
 const Home: NextPage = () => {
-
-  interface Body {
-    test: string
-  }
-
-  const [test,setTest] = useState<{item: String, test: Boolean}>({item: '', test: false})
 
   return (
     <ReactPage/>
@@ -88,13 +78,6 @@ const ReactPage = ()=>{
       setFetching(false)
       setSignedIn(true)
       setCUser(user)
-      let fetchOTP = fetch(`https://paperstack-drab.vercel.app/api/package/emailotp/${user.email}/${user.uid}`)
-      .then(res=>res.json())
-      .then(resJson=>{
-        setOTPModal(true)
-        console.log(resJson)
-      })
-      .catch(e=>console.log(e.message))
   }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
@@ -106,27 +89,6 @@ const ReactPage = ()=>{
       // ...
       setFetching(false)
   });
-  }
-
-  const validateOTP = async (otp:any) => {
-    if (!otp) {
-      alert('OTP required')
-      return
-    }
-    let newOTP = otp.toUpperCase()
-    newOTP = newOTP.trim()
-    const res = await client.verifyOTP(user.uid, newOTP)
-    if (res == false) alert('OTP mismatch or expired')
-    if (res) setOTPModal(false)
-  }
-  
-  const reSendOTP = () =>{
-    try {
-      fetch(`https://paperstack-drab.vercel.app/api/package/emailotp/${cUser.email}/${cUser.uid}`)
-      .then(()=>alert(`OTP has been sent to ${cUser.email}`))
-    } catch (error:any) {
-      alert(error.message || error)
-    }
   }
 
   const signOutClick = () =>{
@@ -144,36 +106,6 @@ const ReactPage = ()=>{
  // user bar
   return (
     <div className="container my-3">
-      {otpModal && <Modal
-      opened={otpModal}
-      onClose={() => setOTPModal(false)}
-      withCloseButton={false}
-      closeOnEscape={false}
-      closeOnClickOutside={false}
-      >
-        <Group position='center' direction='column' >
-          {
-            qr &&
-            <Image
-              src={qr}
-              alt="QR-OTP"
-              height={200}
-              width={200}
-            />
-          }
-        <Text>QR-OTP has been sent to <Text color='blue' >{cUser.email}</Text></Text>
-        <TextInput
-          placeholder="OTP"
-          value={otpField}
-          onChange={(e:any)=>setOTPField(e.target.value)}
-        />
-        <Button onClick={()=>validateOTP(otpField)} >CheckOTP</Button>
-          <Group position='right' >
-            <Text size='xs' >The OTP should be recieved within 2 minutes.</Text>
-            <Text size='xs' style={{cursor: 'pointer'}} color='blue' onClick={reSendOTP} >Resend OTP</Text>
-          </Group>
-        </Group>
-      </Modal>}
       <UserBar signIn={signIn} signOut={signOutClick} signedIn={signedIn} user={user} fetching={fetching} />
       <div className="input-group mb-3">
         <input

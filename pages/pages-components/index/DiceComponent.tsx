@@ -4,10 +4,10 @@ import { v4 as uuidv4 } from "uuid"
 const DiceComponent = ({textToRender}:{textToRender:String | number}) =>{
     return(
         <div style={{
-        height: 100,
-        width: 100,
-        minHeight: 100,
-        minWidth: 100,
+        height: 50,
+        width: 50,
+        minHeight: 50,
+        minWidth: 50,
         alignItems: 'center',
         justifyContent: 'center',
         display: 'flex'
